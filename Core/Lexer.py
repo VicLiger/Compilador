@@ -7,6 +7,7 @@ class Lexer:
         self.texto = texto
         self.posicao = -1
         self.caractere_atual = None
+        self.avancar()
 
     def avancar(self):
         self.posicao += 1
@@ -20,8 +21,9 @@ class Lexer:
         tokens =[]
 
         while self.caractere_atual != None:
-            if self.caractere_atual in "\t":
-                continue
+
+            if self.caractere_atual in " \t":
+                self.avancar()
 
             elif self.caractere_atual in numeros:
                 tokens.append(self.gerar_token_numerico())
@@ -29,16 +31,33 @@ class Lexer:
              ### OPERADORES ###
             elif self.caractere_atual == "+":
                 tokens.append(Token("SOMA", "+"))
+                self.avancar()
             elif self.caractere_atual == "-":
                 tokens.append(Token("SUBTRACAO", "-"))
+                self.avancar()
+
             elif self.caractere_atual == "*":
                 tokens.append(Token("MULTIPLICACAO", "*"))
+                self.avancar()
+
             elif self.caractere_atual == "/":
                 tokens.append(Token("DIVISAO", "/"))
+                self.avancar()
+
             elif self.caractere_atual == "(":
                 tokens.append(Token("PARENTESES_ESQUERDA", "("))
+                self.avancar()
+
             elif self.caractere_atual == ")":
                 tokens.append(Token("PARENTESES_DIREITA", ")"))
+                self.avancar()
+
+            else:
+                print("O caractere inserido é inválido")
+                self.avancar()
+
+        return tokens
+
 
 
     def gerar_token_numerico(self):
@@ -54,10 +73,10 @@ class Lexer:
             numero_texto += self.caractere_atual
             self.avancar()
 
-            if e_decimal:
-                return Token("DECIMAL", float(numero_texto))
+        if e_decimal:
+            return Token("DECIMAL", float(numero_texto))
 
-            return Token("INTEIRO", int(numero_texto))
+        return Token("INTEIRO", int(numero_texto))
 
 
 
