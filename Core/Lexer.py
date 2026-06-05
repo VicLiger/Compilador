@@ -34,7 +34,7 @@ class Lexer:
             elif self.caractere_atual in letras:
                 tokens.append(self.gerar_identificador())
 
-            ### OPERADORES ###
+            ### OPERADORES MATEMÁTICOS ###
             elif self.caractere_atual == "+":
                 tokens.append(Token("SOMA", "+"))
                 self.avancar()
@@ -53,11 +53,32 @@ class Lexer:
             elif self.caractere_atual == ")":
                 tokens.append(Token("PARENTESES_DIREITA", ")"))
                 self.avancar()
+            
+            ### OPERADORES LÓGICOS E ATRIBUIÇÃO ###
             elif self.caractere_atual == "=":
-                tokens.append(Token("ATRIBUICAO", "="))
                 self.avancar()
+                if self.caractere_atual == "=":
+                    tokens.append(Token("IGUAL_A", "=="))
+                    self.avancar()
+                else:
+                    tokens.append(Token("ATRIBUICAO", "="))
+
+            elif self.caractere_atual == "!":
+                self.avancar()
+                if self.caractere_atual == "=":
+                    tokens.append(Token("DIFERENTE", "!="))
+                    self.avancar()
+                    
+            elif self.caractere_atual == ">":
+                tokens.append(Token("MAIOR", ">"))
+                self.avancar()
+                
+            elif self.caractere_atual == "<":
+                tokens.append(Token("MENOR", "<"))
+                self.avancar()
+                
             else:
-                print("O caractere inserido é inválido")
+                print(f"O caractere '{self.caractere_atual}' é inválido")
                 self.avancar()
 
         return tokens
