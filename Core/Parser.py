@@ -16,19 +16,26 @@ class Parser:
         else:
             self.token_atual = None
 
-    def processar_numero(self):
+    def processar_fator(self):
         token = self.token_atual
 
         if token.tipo in ["INTEIRO", "DECIMAL"]:
             self.avancar()
             return NumeroNode(token)
 
+        if token.tipo == "PARENTESES_ESQUERDA":
+            self.avancar()
+            resultado = self.processar_expressao()
+            
+            if self.token_atual is not None and self.token_atual.tipo == "PARENTESES_DIREITA":
+                self.avancar()
+                return resultado
+            raise Exception("Erro de Sintaxe: Esperado ')'")
 
     def processar_operacao(self, funcao, operadores):
         esquerda = funcao()
 
         while self.token_atual is not None and self.token_atual.tipo in operadores:
-
             operador = self.token_atual
             self.avancar()
             direita = funcao()
@@ -37,10 +44,9 @@ class Parser:
 
         return esquerda
 
-
     def processar_multiplicacao_divisao(self):
         return self.processar_operacao(
-            self.processar_numero,
+            self.processar_fator,
             ["MULTIPLICACAO", "DIVISAO"]
         )
 
