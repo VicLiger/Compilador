@@ -1,12 +1,19 @@
 class Interpreter:
 
     def visitar(self, node):
+        tipo_node = type(node).__name__
 
-        if type(node).__name__ == "NumeroNode":
+        if tipo_node == "NumeroNode":
             return node.token.valor
 
-        if type(node).__name__ == "OperacaoBinariaNode":
+        if tipo_node == "OperacaoUnariaNode":
+            numero = self.visitar(node.node)
+            if node.operador.tipo == "SOMA":
+                return +numero
+            if node.operador.tipo == "SUBTRACAO":
+                return -numero
 
+        if tipo_node == "OperacaoBinariaNode":
             esquerda = self.visitar(node.esquerda)
             direita = self.visitar(node.direita)
 

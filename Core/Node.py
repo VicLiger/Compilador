@@ -8,3 +8,9 @@ class OperacaoBinariaNode:
         self.esquerda = esquerda
         self.operador = operador
         self.direita = direita
+
+
+class OperacaoUnariaNode:
+    def __init__(self, operador, node):
+        self.operador = operador
+        self.node = node

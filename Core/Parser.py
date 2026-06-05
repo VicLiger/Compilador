@@ -1,4 +1,4 @@
-from Core.Node import NumeroNode, OperacaoBinariaNode
+from Core.Node import NumeroNode, OperacaoBinariaNode, OperacaoUnariaNode
 
 
 class Parser:
@@ -18,6 +18,11 @@ class Parser:
 
     def processar_fator(self):
         token = self.token_atual
+
+        if token.tipo in ["SOMA", "SUBTRACAO"]:
+            self.avancar()
+            node = self.processar_fator()
+            return OperacaoUnariaNode(token, node)
 
         if token.tipo in ["INTEIRO", "DECIMAL"]:
             self.avancar()
