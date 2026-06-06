@@ -51,3 +51,12 @@ class PrintNode:
 class ReadNode:
     def __init__(self, nome):
         self.nome = nome
+
+class FuncaoNode:
+    def __init__(self, nome, corpo):
+        self.nome = nome
+        self.corpo = corpo
+
+class ChamarFuncaoNode:
+    def __init__(self, nome):
+        self.nome = nome

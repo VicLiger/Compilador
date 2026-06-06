@@ -3,6 +3,7 @@ class Interpreter:
 
     def __init__(self):
         self.variaveis = {}
+        self.funcoes = {}
 
     def visitar(self, node):
         tipo_node = type(node).__name__
@@ -54,6 +55,13 @@ class Interpreter:
 
             return resultado
 
+        if tipo_node == "FuncaoNode":
+            self.funcoes[node.nome] = node
+            return None
+
+        if tipo_node == "ChamarFuncaoNode":
+            funcao = self.funcoes[node.nome]
+            return self.visitar(funcao.corpo)
 
         if tipo_node == "OperacaoUnariaNode":
             numero = self.visitar(node.node)

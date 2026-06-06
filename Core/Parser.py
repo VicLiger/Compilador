@@ -1,10 +1,12 @@
-from Core.Node import NumeroNode, OperacaoBinariaNode, OperacaoUnariaNode, VariavelNode, AtribuicaoNode
+from Core.Node import NumeroNode, OperacaoBinariaNode, OperacaoUnariaNode, VariavelNode, AtribuicaoNode, \
+    ChamarFuncaoNode
 from Core.Node import BoleanoNode
 from Core.Node import IfNode
 from Core.Node import WhileNode
 from Core.Node import StringNode
 from Core.Node import PrintNode
 from Core.Node import ReadNode
+from Core.Node import FuncaoNode
 
 class Parser:
     def __init__(self, tokens):
@@ -25,8 +27,22 @@ class Parser:
         token = self.token_atual
 
         if token.tipo == "IDENTIFICADOR":
+            nome = token.valor
+
             self.avancar()
-            return VariavelNode(token.valor)
+
+            if self.token_atual is not None and self.token_atual.tipo == "PARENTESES_ESQUERDA":
+                self.avancar()
+
+                if self.token_atual.tipo == "PARENTESES_DIREITA":
+                    raise  Exception("Esperado ')'")
+
+                self.avancar()
+
+                return ChamarFuncaoNode(nome)
+
+            return VariavelNode(nome)
+
 
         if token.tipo in ["SOMA", "SUBTRACAO", "NOT"]:
             self.avancar()
@@ -179,3 +195,32 @@ class Parser:
             return ReadNode(nome)
 
         return self.processar_print()
+
+
+    def processar_funcao(self):
+        if self.token_atual is not None and self.token_atual.tipo == "FUNC":
+
+            self.avancar()
+
+            if self.token_atual.tipo != "IDENTIFICADOR":
+                raise Exception("Esperado nome da função")
+
+            nome = self.token_atual.valor
+
+            self.avancar()
+
+            if self.token_atual.tipo != "PARENTESES_ESQUERDA":
+                raise Exception("Esperado '('")
+
+            self.avancar()
+
+            if self.token_atual.tipo != "PARENTESES_DIREITA":
+                raise Exception("Esperado ')'")
+
+            self.avancar()
+
+            corpo = self.processar_logicos()
+
+            return FuncaoNode(nome, corpo)
+
+        return self.processar_read()

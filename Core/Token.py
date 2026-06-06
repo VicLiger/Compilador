@@ -34,6 +34,7 @@ TK_WHILE = "WHILE"
 TK_PRINT = "PRINT"
 TK_READ = "READ"
 
+TK_FUNC = "FUNC"
 # Finalizando tipos de tokens #
 
 class Token:
