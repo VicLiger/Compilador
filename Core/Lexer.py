@@ -28,6 +28,9 @@ class Lexer:
             if self.caractere_atual in " \t":
                 self.avancar()
 
+            elif self.caractere_atual == '"':
+                tokens.append(Token(self.gerar_string()))
+
             elif self.caractere_atual in numeros:
                 tokens.append(self.gerar_token_numerico())
                 
@@ -82,6 +85,18 @@ class Lexer:
                 self.avancar()
 
         return tokens
+
+    def gerar_string(self):
+        texto =""
+        self.avancar()
+
+        while self.caractere_atual is not None and self.caractere_atual != '"':
+            texto += self.caractere_atual
+            self.avancar()
+
+        self.avancar()
+        return Token("STRING", texto)
+
 
     def gerar_token_numerico(self):
         numero_texto = ''

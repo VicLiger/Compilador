@@ -29,7 +29,6 @@ class BoleanoNode:
     def __init__(self, nome):
         self.nome = nome
 
-
 class IfNode:
     def __init__(self, condicao, caso_verdadeiro, caso_falso):
         self.condicao = condicao
@@ -40,3 +39,7 @@ class WhileNode:
     def __init__(self, condicao, corpo):
         self.condicao = condicao
         self.corpo = corpo
+
+class StringNode:
+    def __init__(self, valor):
+        self.valor = valor
