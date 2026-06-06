@@ -24,7 +24,7 @@ class Parser:
             self.avancar()
             return VariavelNode(token.valor)
 
-        if token.tipo in ["SOMA", "SUBTRACAO"]:
+        if token.tipo in ["SOMA", "SUBTRACAO", "NOT"]:
             self.avancar()
             node = self.processar_fator()
             return OperacaoUnariaNode(token, node)
@@ -39,7 +39,7 @@ class Parser:
 
         if token.tipo == "PARENTESES_ESQUERDA":
             self.avancar()
-            resultado = self.processar_comparacao()
+            resultado = self.processar_logicos()
             
             if self.token_atual is not None and self.token_atual.tipo == "PARENTESES_DIREITA":
                 self.avancar()
@@ -91,11 +91,11 @@ class Parser:
             self.avancar()
             self.avancar()
 
-            valor = self.processar_comparacao()
+            valor = self.processar_logicos()
 
             return AtribuicaoNode(nome, valor)
 
-        return self.processar_comparacao()
+        return self.processar_logicos()
 
 
     def processar_if(self):
@@ -103,7 +103,7 @@ class Parser:
         if self.token_atual is not None and self.token_atual.tipo == "IF":
             self.avancar()
 
-            condicao = self.processar_comparacao()
+            condicao = self.processar_logicos()
 
             if self.token_atual is None or self.token_atual.tipo != "THEN":
                 raise Exception("Erro de Sintaxe: Esperado 'then'")
@@ -122,4 +122,11 @@ class Parser:
             return IfNode(condicao, caso_verdadeiro, caso_falso)
 
         return self.processar_atribuicao()
+
+
+    def processar_logicos(self):
+        return self.processar_operacao(
+            self.processar_comparacao,
+            ["AND", "OR"]
+        )
 

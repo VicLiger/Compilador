@@ -114,12 +114,21 @@ class Lexer:
             return Token("BOOL", False)
 
         if id_texto == "if":
-            return Token("IF", True)
+            return Token("IF", id_texto)
 
         if id_texto == "then":
-            return Token("THEN", True)
+            return Token("THEN", id_texto)
 
         if id_texto == "else":
-            return Token("ELSE", True)
+            return Token("ELSE", id_texto)
+
+        if id_texto == "and":
+            return Token("AND", id_texto)
+
+        if id_texto == "or":
+            return Token("OR", id_texto)
+
+        if id_texto == "not":
+            return Token("NOT", id_texto)
         
         return Token("IDENTIFICADOR", id_texto)

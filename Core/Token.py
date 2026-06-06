@@ -25,6 +25,10 @@ TK_IF = "IF"
 TK_THEN = "THEN"
 TK_ELSE = "ELSE"
 
+TK_AND = "AND"
+TK_OR = "OR"
+TK_NOT = "NOT"
+
 # Finalizando tipos de tokens #
 
 class Token:

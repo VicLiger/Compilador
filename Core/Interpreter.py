@@ -35,6 +35,8 @@ class Interpreter:
                 return +numero
             if node.operador.tipo == "SUBTRACAO":
                 return -numero
+            if node.operador.tipo == "NOT":
+                return not numero
 
         if tipo_node == "OperacaoBinariaNode":
             esquerda = self.visitar(node.esquerda)
@@ -61,3 +63,9 @@ class Interpreter:
                 return esquerda == direita
             if node.operador.tipo == "DIFERENTE":
                 return esquerda != direita
+
+
+            if node.operador.tipo == "AND":
+                return esquerda and direita
+            if node.operador.tipo == "OR":
+                return esquerda or direita
