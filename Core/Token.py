@@ -29,6 +29,8 @@ TK_AND = "AND"
 TK_OR = "OR"
 TK_NOT = "NOT"
 
+TK_WHILE = "WHILE"
+
 # Finalizando tipos de tokens #
 
 class Token:

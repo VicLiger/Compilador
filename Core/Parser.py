@@ -1,6 +1,7 @@
 from Core.Node import NumeroNode, OperacaoBinariaNode, OperacaoUnariaNode, VariavelNode, AtribuicaoNode
 from Core.Node import BoleanoNode
 from Core.Node import IfNode
+from Core.Node import WhileNode
 
 class Parser:
     def __init__(self, tokens):
@@ -130,3 +131,19 @@ class Parser:
             ["AND", "OR"]
         )
 
+    def processar_while(self):
+        if self.token_atual is not None and self.token_atual.tipo == "WHILE":
+            self.avancar()
+
+            condicao = self.processar_logicos()
+
+            if self.token_atual is None or self.token_atual.tipo != "THEN":
+                raise Exception("Erro de Sintaxe: Esperado 'then'")
+
+            self.avancar()
+
+            corpo = self.processar_atribuicao()
+
+            return WhileNode(condicao, corpo)
+
+        return self.processar_if()

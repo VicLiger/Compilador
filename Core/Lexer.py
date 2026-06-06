@@ -130,5 +130,8 @@ class Lexer:
 
         if id_texto == "not":
             return Token("NOT", id_texto)
+
+        if id_texto == "while":
+            return Token("WHILE", id_texto)
         
         return Token("IDENTIFICADOR", id_texto)

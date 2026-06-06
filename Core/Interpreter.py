@@ -1,3 +1,6 @@
+from main import resultado
+
+
 class Interpreter:
 
     def __init__(self):
@@ -27,6 +30,14 @@ class Interpreter:
                 return self.visitar(node.caso_verdadeiro)
 
             return self.visitar(node.caso_falso)
+
+        if tipo_node == "WhileNode":
+            resultado = None
+
+            while self.visitar(node.condicao):
+                resultado = self.visitar(node.corpo)
+
+            return resultado
 
 
         if tipo_node == "OperacaoUnariaNode":

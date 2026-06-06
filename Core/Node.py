@@ -35,3 +35,8 @@ class IfNode:
         self.condicao = condicao
         self.caso_verdadeiro = caso_verdadeiro
         self.caso_falso = caso_falso
+
+class WhileNode:
+    def __init__(self, condicao, corpo):
+        self.condicao = condicao
+        self.corpo = corpo
