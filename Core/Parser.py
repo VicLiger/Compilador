@@ -3,6 +3,7 @@ from Core.Node import BoleanoNode
 from Core.Node import IfNode
 from Core.Node import WhileNode
 from Core.Node import StringNode
+from Core.Node import PrintNode
 
 class Parser:
     def __init__(self, tokens):
@@ -150,5 +151,16 @@ class Parser:
             corpo = self.processar_atribuicao()
 
             return WhileNode(condicao, corpo)
+
+        return self.processar_if()
+
+    def processar_print(self):
+
+        if self.token_atual is not None and self.token_atual.tipo == "PRINT":
+            self.avancar()
+
+            valor = self.processar_logicos()
+
+            return PrintNode(valor)
 
         return self.processar_if()

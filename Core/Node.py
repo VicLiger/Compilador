@@ -43,3 +43,7 @@ class WhileNode:
 class StringNode:
     def __init__(self, valor):
         self.valor = valor
+
+class PrintNode:
+    def __init__(self, valor):
+        self.valor = valor

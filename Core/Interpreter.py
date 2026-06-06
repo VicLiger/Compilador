@@ -32,6 +32,11 @@ class Interpreter:
 
             return self.visitar(node.caso_falso)
 
+        if tipo_node == "PrintNode":
+            valor = self.visitar(node.valor)
+            print(valor)
+            return valor
+
         if tipo_node == "WhileNode":
             resultado = None
 

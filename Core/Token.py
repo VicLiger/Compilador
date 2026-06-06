@@ -31,6 +31,8 @@ TK_NOT = "NOT"
 
 TK_WHILE = "WHILE"
 
+TK_PRINT = "PRINT"
+
 # Finalizando tipos de tokens #
 
 class Token:
