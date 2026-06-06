@@ -1,5 +1,5 @@
 from Core.Node import NumeroNode, OperacaoBinariaNode, OperacaoUnariaNode
-
+from Core.Node import NumeroNode, OperacaoBinariaNode, OperacaoUnariaNode, VariavelNode, AtribuicaoNode
 
 class Parser:
     def __init__(self, tokens):
@@ -36,6 +36,11 @@ class Parser:
                 self.avancar()
                 return resultado
             raise Exception("Erro de Sintaxe: Esperado ')'")
+
+        if token.tipo == "IDENTIFICADOR":
+            self.avancar()
+            return VariavelNode(token.valor)
+
 
     def processar_operacao(self, funcao, operadores):
         esquerda = funcao()

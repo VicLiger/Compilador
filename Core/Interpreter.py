@@ -1,7 +1,13 @@
 class Interpreter:
 
+    def __init__(self):
+        self.variaveis = {}
+
     def visitar(self, node):
         tipo_node = type(node).__name__
+
+        if tipo_node == "VariavelNode":
+            return self.variaveis[tipo_node]
 
         if tipo_node == "NumeroNode":
             return node.token.valor

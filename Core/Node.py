@@ -14,3 +14,13 @@ class OperacaoUnariaNode:
     def __init__(self, operador, node):
         self.operador = operador
         self.node = node
+
+
+class VariavelNode:
+    def __init__(self, nome):
+        self.nome = nome
+
+class AtribuicaoNode:
+    def __init__(self, nome,valor):
+        self.nome = nome
+        self.valor = valor
