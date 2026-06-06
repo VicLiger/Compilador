@@ -12,6 +12,11 @@ class Interpreter:
         if tipo_node == "NumeroNode":
             return node.token.valor
 
+        if tipo_node == "AtribuicaoNode":
+            valor = self.visitar(node.valor)
+            self.variaveis[node.nome] = valor
+            return valor
+
         if tipo_node == "OperacaoUnariaNode":
             numero = self.visitar(node.node)
             if node.operador.tipo == "SOMA":
