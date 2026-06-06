@@ -72,3 +72,22 @@ class Parser:
             self.processar_expressao,
             ["IGUAL_A", "DIFERENTE", "MAIOR", "MENOR"]
         )
+
+    def processar_atribuicao(self):
+        if(
+            self.token_atual is not None and
+            self.token_atual.tipo == "IDENTIFICADOR" and
+            self.indice + 1 < len(self.tokens) and
+            self.tokens[self.indice + 1].tipo == "ATRIBUICAO"
+        ):
+            nome = self.token_atual.valor
+
+            self.avancar()
+            self.avancar()
+
+            valor = self.processar_comparacao()
+
+            return AtribuicaoNode(nome, valor)
+
+        return self.processar_comparacao()
+
