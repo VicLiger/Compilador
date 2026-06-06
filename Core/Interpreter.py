@@ -1,5 +1,3 @@
-from main import resultado
-
 
 class Interpreter:
 
