@@ -214,6 +214,13 @@ class Parser:
 
             self.avancar()
 
+            if self.token_atual.tipo != "IDENTIFICADOR":
+                raise Exception("Esperado parâmetro")
+
+            parametro = self.token_atual.valor
+
+            self.avancar()
+
             if self.token_atual.tipo != "PARENTESES_DIREITA":
                 raise Exception("Esperado ')'")
 
@@ -221,6 +228,10 @@ class Parser:
 
             corpo = self.processar_logicos()
 
-            return FuncaoNode(nome, corpo)
+            return FuncaoNode(
+                nome,
+                parametro,
+                corpo
+            )
 
         return self.processar_read()

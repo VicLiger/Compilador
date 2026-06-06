@@ -53,10 +53,13 @@ class ReadNode:
         self.nome = nome
 
 class FuncaoNode:
-    def __init__(self, nome, corpo):
+    def __init__(self, nome,parametro, corpo):
         self.nome = nome
+        self.parametro = parametro
         self.corpo = corpo
 
 class ChamarFuncaoNode:
-    def __init__(self, nome):
+    def __init__(self, nome, argumento):
         self.nome = nome
+        self.argumento = argumento
+

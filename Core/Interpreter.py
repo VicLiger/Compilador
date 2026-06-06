@@ -61,7 +61,13 @@ class Interpreter:
 
         if tipo_node == "ChamarFuncaoNode":
             funcao = self.funcoes[node.nome]
-            return self.visitar(funcao.corpo)
+
+            valor_argumento = self.visitar(node.argumento)
+
+            self.variaveis[funcao.parametro] = valor_argumento
+
+            return self.visitar(node.corpo)
+
 
         if tipo_node == "OperacaoUnariaNode":
             numero = self.visitar(node.node)
