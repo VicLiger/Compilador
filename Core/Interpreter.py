@@ -20,6 +20,15 @@ class Interpreter:
             self.variaveis[node.nome] = valor
             return valor
 
+        if tipo_node == "IfNode":
+            condicao = self.visitar(node.condicao)
+
+            if condicao:
+                return self.visitar(node.caso_verdadeiro)
+
+            return self.visitar(node.caso_falso)
+
+
         if tipo_node == "OperacaoUnariaNode":
             numero = self.visitar(node.node)
             if node.operador.tipo == "SOMA":
