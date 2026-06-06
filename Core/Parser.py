@@ -34,12 +34,14 @@ class Parser:
             if self.token_atual is not None and self.token_atual.tipo == "PARENTESES_ESQUERDA":
                 self.avancar()
 
-                if self.token_atual.tipo == "PARENTESES_DIREITA":
-                    raise  Exception("Esperado ')'")
+                argumento = self.processar_logicos()
+
+                if self.token_atual.tipo != "PARENTESES_DIREITA":
+                    raise Exception("Esperado ')'")
 
                 self.avancar()
 
-                return ChamarFuncaoNode(nome)
+                return ChamarFuncaoNode(nome, argumento)
 
             return VariavelNode(nome)
 

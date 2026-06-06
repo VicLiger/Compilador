@@ -66,7 +66,7 @@ class Interpreter:
 
             self.variaveis[funcao.parametro] = valor_argumento
 
-            return self.visitar(node.corpo)
+            return self.visitar(funcao.corpo)
 
 
         if tipo_node == "OperacaoUnariaNode":
