@@ -60,3 +60,9 @@ class Parser:
             self.processar_multiplicacao_divisao,
             ["SOMA", "SUBTRACAO"]
         )
+
+    def processar_comparacao(self):
+        return self.processar_operacao(
+            self.processar_expressao,
+            ["IGUAL_A", "DIFERENTE", "MAIOR", "MENOR"]
+        )

@@ -28,3 +28,13 @@ class Interpreter:
 
             if node.operador.tipo == "DIVISAO":
                 return esquerda / direita
+
+
+            if node.operador.tipo == "MAIOR":
+                return esquerda > direita
+            if node.operador.tipo == "MENOR":
+                return esquerda < direita
+            if node.operador.tipo == "IGUAL_A":
+                return esquerda == direita
+            if node.operador.tipo == "DIFERENTE":
+                return esquerda != direita
