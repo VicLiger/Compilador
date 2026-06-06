@@ -1,4 +1,3 @@
-from Core.Node import NumeroNode, OperacaoBinariaNode, OperacaoUnariaNode
 from Core.Node import NumeroNode, OperacaoBinariaNode, OperacaoUnariaNode, VariavelNode, AtribuicaoNode
 
 class Parser:
@@ -19,6 +18,10 @@ class Parser:
     def processar_fator(self):
         token = self.token_atual
 
+        if token.tipo == "IDENTIFICADOR":
+            self.avancar()
+            return VariavelNode(token.valor)
+
         if token.tipo in ["SOMA", "SUBTRACAO"]:
             self.avancar()
             node = self.processar_fator()
@@ -30,16 +33,14 @@ class Parser:
 
         if token.tipo == "PARENTESES_ESQUERDA":
             self.avancar()
-            resultado = self.processar_expressao()
+            resultado = self.processar_comparacao()
             
             if self.token_atual is not None and self.token_atual.tipo == "PARENTESES_DIREITA":
                 self.avancar()
                 return resultado
             raise Exception("Erro de Sintaxe: Esperado ')'")
 
-        if token.tipo == "IDENTIFICADOR":
-            self.avancar()
-            return VariavelNode(token.valor)
+
 
 
     def processar_operacao(self, funcao, operadores):
