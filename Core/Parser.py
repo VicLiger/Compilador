@@ -1,4 +1,5 @@
 from Core.Node import NumeroNode, OperacaoBinariaNode, OperacaoUnariaNode, VariavelNode, AtribuicaoNode
+from Core.Node import BoleanoNode
 
 class Parser:
     def __init__(self, tokens):
@@ -30,6 +31,10 @@ class Parser:
         if token.tipo in ["INTEIRO", "DECIMAL"]:
             self.avancar()
             return NumeroNode(token)
+
+        if token.tipo == "BOOL":
+            self.avancar()
+            return BoleanoNode(token.valor)
 
         if token.tipo == "PARENTESES_ESQUERDA":
             self.avancar()

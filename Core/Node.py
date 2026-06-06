@@ -24,3 +24,7 @@ class AtribuicaoNode:
     def __init__(self, nome,valor):
         self.nome = nome
         self.valor = valor
+
+class BoleanoNode:
+    def __init__(self, nome):
+        self.nome = nome

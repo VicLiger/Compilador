@@ -106,5 +106,11 @@ class Lexer:
         while self.caractere_atual is not None and self.caractere_atual in letras_numeros:
             id_texto += self.caractere_atual
             self.avancar()
+
+        if id_texto == "true":
+            return Token("BOOL", True)
+
+        if id_texto == "false":
+            return Token("BOOL", False)
         
         return Token("IDENTIFICADOR", id_texto)
