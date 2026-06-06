@@ -151,5 +151,8 @@ class Lexer:
 
         if id_texto == "print":
             return Token("PRINT", id_texto)
+
+        if id_texto == "read":
+            return Token("READ", id_texto)
         
         return Token("IDENTIFICADOR", id_texto)

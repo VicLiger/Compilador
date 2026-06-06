@@ -47,3 +47,7 @@ class StringNode:
 class PrintNode:
     def __init__(self, valor):
         self.valor = valor
+
+class ReadNode:
+    def __init__(self, nome):
+        self.nome = nome

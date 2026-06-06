@@ -4,6 +4,7 @@ from Core.Node import IfNode
 from Core.Node import WhileNode
 from Core.Node import StringNode
 from Core.Node import PrintNode
+from Core.Node import ReadNode
 
 class Parser:
     def __init__(self, tokens):
@@ -164,3 +165,17 @@ class Parser:
             return PrintNode(valor)
 
         return self.processar_if()
+
+    def processar_read(self):
+        if self.token_atual is not None and self.token_atual.tipo == "READ":
+            self.avancar()
+
+            if self.token_atual is None or self.token_atual.tipo != "IDENTIFICADOR":
+                raise Exception("Erro de Sintaxe: Tem que ter o nome da variável após o read")
+
+            nome = self.token_atual.valor
+            self.avancar()
+
+            return ReadNode(nome)
+
+        return self.processar_print()

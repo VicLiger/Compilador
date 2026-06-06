@@ -37,6 +37,15 @@ class Interpreter:
             print(valor)
             return valor
 
+        if tipo_node == "ReadNode":
+            valor = input(f"Digite o valor de {node.nome}: ")
+
+            if valor.isdigit():
+                valor = int(valor)
+
+            self.variaveis[node.nome] = valor
+            return valor
+
         if tipo_node == "WhileNode":
             resultado = None
 
