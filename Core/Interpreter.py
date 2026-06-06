@@ -7,7 +7,7 @@ class Interpreter:
         tipo_node = type(node).__name__
 
         if tipo_node == "VariavelNode":
-            return self.variaveis[tipo_node]
+            return self.variaveis[node.nome]
 
         if tipo_node == "NumeroNode":
             return node.token.valor
