@@ -28,3 +28,10 @@ class AtribuicaoNode:
 class BoleanoNode:
     def __init__(self, nome):
         self.nome = nome
+
+
+class IfNode:
+    def __init__(self, condicao, caso_verdadeiro, caso_falso):
+        self.condicao = condicao
+        self.caso_verdadeiro = caso_verdadeiro
+        self.caso_falso = caso_falso

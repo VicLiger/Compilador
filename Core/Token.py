@@ -21,6 +21,10 @@ TK_DIFERENTE = "DIFERENTE"
 TK_MAIOR = "MAIOR"
 TK_MENOR = "MENOR"
 
+TK_IF = "IF"
+TK_THEN = "THEN"
+TK_ELSE = "ELSE"
+
 # Finalizando tipos de tokens #
 
 class Token:

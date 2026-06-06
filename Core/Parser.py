@@ -1,5 +1,6 @@
 from Core.Node import NumeroNode, OperacaoBinariaNode, OperacaoUnariaNode, VariavelNode, AtribuicaoNode
 from Core.Node import BoleanoNode
+from Core.Node import IfNode
 
 class Parser:
     def __init__(self, tokens):
@@ -95,4 +96,30 @@ class Parser:
             return AtribuicaoNode(nome, valor)
 
         return self.processar_comparacao()
+
+
+    def processar_if(self):
+
+        if self.token_atual is not None and self.token_atual.tipo == "IF":
+            self.avancar()
+
+            condicao = self.processar_comparacao()
+
+            if self.token_atual is None or self.token_atual.tipo != "THEN":
+                raise Exception("Erro de Sintaxe: Esperado 'then'")
+
+            self.avancar()
+
+            caso_verdadeiro = self.processar_atribuicao()
+
+            if self.token_atual is None or self.token_atual.tipo != "ELSE":
+                raise Exception("Erro de Sintaxe: esperado 'else'")
+
+            self.avancar()
+
+            caso_falso = self.processar_atribuicao()
+
+            return IfNode(condicao, caso_verdadeiro, caso_falso)
+
+        return self.processar_atribuicao()
 
