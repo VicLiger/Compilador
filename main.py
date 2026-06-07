@@ -4,17 +4,7 @@ from Core.Interpreter import Interpreter
 
 interpreter = Interpreter()
 
-texto = "func dobro(x) x * 2"
-
-lexer = Lexer(texto)
-tokens = lexer.gerar_tokens()
-
-parser = Parser(tokens)
-arvore = parser.processar_funcao()
-
-interpreter.visitar(arvore)
-
-texto = "dobro(10)"
+texto = "print x"
 
 lexer = Lexer(texto)
 tokens = lexer.gerar_tokens()

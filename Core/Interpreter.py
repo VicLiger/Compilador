@@ -1,4 +1,3 @@
-
 class Interpreter:
 
     def __init__(self):
@@ -11,8 +10,8 @@ class Interpreter:
         if tipo_node == "VariavelNode":
             if node.nome not in self.variaveis:
                 raise Exception(
-                    f"Erro de  semântica: variável '{node.nome}' não declarada")
-
+                    f"Erro Semântico: variável '{node.nome}' não declarada"
+                )
             return self.variaveis[node.nome]
 
         if tipo_node == "NumeroNode":
@@ -96,29 +95,48 @@ class Interpreter:
             direita = self.visitar(node.direita)
 
             if node.operador.tipo == "SOMA":
+                self.verificar_tipo(esquerda, direita)
                 return esquerda + direita
 
             if node.operador.tipo == "SUBTRACAO":
+                self.verificar_tipo(esquerda, direita)
                 return esquerda - direita
 
             if node.operador.tipo == "MULTIPLICACAO":
+                self.verificar_tipo(esquerda, direita)
                 return esquerda * direita
 
             if node.operador.tipo == "DIVISAO":
+                self.verificar_tipo(esquerda, direita)
                 return esquerda / direita
 
 
             if node.operador.tipo == "MAIOR":
+                self.verificar_tipo(esquerda, direita)
                 return esquerda > direita
             if node.operador.tipo == "MENOR":
+                self.verificar_tipo(esquerda, direita)
                 return esquerda < direita
             if node.operador.tipo == "IGUAL_A":
+                self.verificar_tipo(esquerda, direita)
                 return esquerda == direita
             if node.operador.tipo == "DIFERENTE":
+                self.verificar_tipo(esquerda, direita)
                 return esquerda != direita
 
 
             if node.operador.tipo == "AND":
+                if not isinstance(esquerda,bool) or not isinstance(direita,bool):
+                    raise Exception("Erro semântico, operador AND precisa ser True/False")
                 return esquerda and direita
             if node.operador.tipo == "OR":
-                return esquerda or direita
+                if not isinstance(esquerda, bool) or not isinstance(direita, bool):
+                    raise Exception("Erro semântico, operador OR precisa ser True/False")
+                return esquerda and direita
+
+
+    def verificar_tipo(self,esquerda,direita):
+        if type(esquerda) != type(direita):
+            raise Exception(
+                f"Erro semânmtico: tipos incompátivei ({type(esquerda).__name__} e {type(direita).__name__})"
+            )
