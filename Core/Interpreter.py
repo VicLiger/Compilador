@@ -9,6 +9,10 @@ class Interpreter:
         tipo_node = type(node).__name__
 
         if tipo_node == "VariavelNode":
+            if node.nome not in self.variaveis:
+                raise Exception(
+                    f"Erro de  semântica: variável '{node.nome}' não declarada")
+
             return self.variaveis[node.nome]
 
         if tipo_node == "NumeroNode":
