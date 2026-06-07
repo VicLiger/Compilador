@@ -67,9 +67,15 @@ class Interpreter:
 
             valor_argumento = self.visitar(node.argumento)
 
+            variaveis_antigas = self.variaveis.copy()
+
             self.variaveis[funcao.parametro] = valor_argumento
 
-            return self.visitar(funcao.corpo)
+            resultado = self.visitar(funcao.corpo)
+
+            self.variaveis = variaveis_antigas
+
+            return resultado
 
 
         if tipo_node == "OperacaoUnariaNode":
