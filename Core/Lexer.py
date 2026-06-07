@@ -157,5 +157,9 @@ class Lexer:
 
         if id_texto == "func":
             return Token("FUNC", id_texto)
+
+        if id_texto == "return":
+            return Token("RETURN", id_texto)
+
         
         return Token("IDENTIFICADOR", id_texto)

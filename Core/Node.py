@@ -63,3 +63,7 @@ class ChamarFuncaoNode:
         self.nome = nome
         self.argumento = argumento
 
+class ReturnNode:
+    def __init__(self, valor):
+        self.valor = valor
+

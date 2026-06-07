@@ -20,6 +20,9 @@ class Interpreter:
         if tipo_node == "StringNode":
             return node.valor
 
+        if tipo_node == "ReturnNode":
+            return self.visitar(node.valor)
+
         if tipo_node == "AtribuicaoNode":
             valor = self.visitar(node.valor)
             self.variaveis[node.nome] = valor

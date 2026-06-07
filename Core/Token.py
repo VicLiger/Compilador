@@ -35,6 +35,8 @@ TK_PRINT = "PRINT"
 TK_READ = "READ"
 
 TK_FUNC = "FUNC"
+TK_RETURN = "RETURN"
+
 # Finalizando tipos de tokens #
 
 class Token:

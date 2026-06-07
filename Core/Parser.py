@@ -7,6 +7,7 @@ from Core.Node import StringNode
 from Core.Node import PrintNode
 from Core.Node import ReadNode
 from Core.Node import FuncaoNode
+from Core.Node import ReturnNode
 
 class Parser:
     def __init__(self, tokens):
@@ -228,12 +229,24 @@ class Parser:
 
             self.avancar()
 
-            corpo = self.processar_logicos()
+            corpo = self.processar_return()
 
             return FuncaoNode(
                 nome,
                 parametro,
                 corpo
             )
+
+        return self.processar_read()
+
+    def processar_return(self):
+
+        if self.token_atual is not None and self.token_atual.tipo == "RETURN":
+
+            self.avancar()
+
+            valor = self.processar_logicos()
+
+            return ReturnNode(valor)
 
         return self.processar_read()
