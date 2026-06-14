@@ -1,10 +1,9 @@
 from Core.Lexer import Lexer
 from Core.Parser import Parser
-from Core.Interpreter import Interpreter
+from Core.TAC import TAC
+from Core.Simplificador import Simplificador
 
-interpreter = Interpreter()
-
-texto = "x = 10"
+texto = "x = 10 + 20 * 3"
 
 lexer = Lexer(texto)
 tokens = lexer.gerar_tokens()
@@ -12,8 +11,12 @@ tokens = lexer.gerar_tokens()
 parser = Parser(tokens)
 arvore = parser.processar_funcao()
 
-resultado = interpreter.visitar(arvore)
+simplificador = Simplificador()
+arvore_simplificada = simplificador.simplificar(arvore)
 
-print("Resultado:", resultado)
+tac = TAC()
+tac.gerar(arvore_simplificada)
 
-print("Tabela de Símbolos:", interpreter.tabela_simbolos)
+print("Tokens:", tokens)
+print("TAC otimizado:")
+print(tac.obter_codigo())
