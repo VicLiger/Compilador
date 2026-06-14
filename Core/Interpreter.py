@@ -86,6 +86,11 @@ class Interpreter:
             return None
 
         if tipo_node == "ChamarFuncaoNode":
+            if node.nome not in self.funcoes:
+                raise Exception(
+                    f"Erro Semântico: função '{node.nome}' não declarada"
+                )
+
             funcao = self.funcoes[node.nome]
 
             valor_argumento = self.visitar(node.argumento)
