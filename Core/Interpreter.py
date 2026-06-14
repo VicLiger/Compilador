@@ -82,6 +82,12 @@ class Interpreter:
             return resultado
 
         if tipo_node == "FuncaoNode":
+
+            if type(node.corpo).__name__ != "ReturnNode":
+                raise Exception(
+                    f"Erro Semântico: função '{node.nome}' deve possuir return"
+                )
+
             self.funcoes[node.nome] = node
             return None
 
