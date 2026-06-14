@@ -1,7 +1,7 @@
-from Core.Lexer import Lexer
-from Core.Parser import Parser
-from Core.TAC import TAC
-from Core.Simplificador import Simplificador
+from Analysis.Lexer import Lexer
+from Analysis.Parser import Parser
+from CodeGeneration.TAC import TAC
+from CodeGeneration.Simplificador import Simplificador
 
 texto = "x = 10 + 20 * 3"
 
