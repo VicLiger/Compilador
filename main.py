@@ -4,7 +4,7 @@ from Core.Interpreter import Interpreter
 
 interpreter = Interpreter()
 
-texto = "print x"
+texto = "x = 10"
 
 lexer = Lexer(texto)
 tokens = lexer.gerar_tokens()
@@ -15,3 +15,5 @@ arvore = parser.processar_funcao()
 resultado = interpreter.visitar(arvore)
 
 print("Resultado:", resultado)
+
+print("Tabela de Símbolos:", interpreter.tabela_simbolos)

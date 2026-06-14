@@ -1,18 +1,30 @@
 class Interpreter:
 
     def __init__(self):
-        self.variaveis = {}
+        self.tabela_simbolos = {}
         self.funcoes = {}
+
+    def obter_tipo(self, valor):
+        if isinstance(valor, bool):
+            return "bool"
+        if isinstance(valor, int):
+            return "int"
+        if isinstance(valor, float):
+            return "float"
+        if isinstance(valor, str):
+            return "string"
+        return "desconhecido"
+
 
     def visitar(self, node):
         tipo_node = type(node).__name__
 
         if tipo_node == "VariavelNode":
-            if node.nome not in self.variaveis:
+            if node.nome not in self.tabela_simbolos:
                 raise Exception(
                     f"Erro Semântico: variável '{node.nome}' não declarada"
                 )
-            return self.variaveis[node.nome]
+            return self.tabela_simbolos[node.nome]["valor"]
 
         if tipo_node == "NumeroNode":
             return node.token.valor
@@ -28,7 +40,11 @@ class Interpreter:
 
         if tipo_node == "AtribuicaoNode":
             valor = self.visitar(node.valor)
-            self.variaveis[node.nome] = valor
+            self.tabela_simbolos[node.nome] = {
+                "valor": valor,
+                "tipo": self.obter_tipo(valor),
+                "escopo": "global"
+            }
             return valor
 
         if tipo_node == "IfNode":
@@ -50,7 +66,11 @@ class Interpreter:
             if valor.isdigit():
                 valor = int(valor)
 
-            self.variaveis[node.nome] = valor
+            self.tabela_simbolos[node.nome] = {
+                "valor": valor,
+                "tipo": self.obter_tipo(valor),
+                "escopo": "global"
+            }
             return valor
 
         if tipo_node == "WhileNode":
@@ -70,13 +90,17 @@ class Interpreter:
 
             valor_argumento = self.visitar(node.argumento)
 
-            variaveis_antigas = self.variaveis.copy()
+            tabela_antiga = self.tabela_simbolos.copy()
 
-            self.variaveis[funcao.parametro] = valor_argumento
+            self.tabela_simbolos[funcao.parametro] = {
+                "valor": valor_argumento,
+                "tipo": self.obter_tipo(valor_argumento),
+                "escopo": "local"
+            }
 
             resultado = self.visitar(funcao.corpo)
 
-            self.variaveis = variaveis_antigas
+            self.tabela_simbolos = tabela_antiga
 
             return resultado
 
@@ -132,7 +156,7 @@ class Interpreter:
             if node.operador.tipo == "OR":
                 if not isinstance(esquerda, bool) or not isinstance(direita, bool):
                     raise Exception("Erro semântico, operador OR precisa ser True/False")
-                return esquerda and direita
+                return esquerda or direita
 
 
     def verificar_tipo(self,esquerda,direita):
