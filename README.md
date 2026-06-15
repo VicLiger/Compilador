@@ -97,3 +97,10 @@ print resultado
 - TAC
 - Bytecode
 - Otimização
+
+
+## Autores
+
+1. Victor Augusto Liger Oliveira Simões - 200029008
+2. Guilherme Santos Gomes de Miranda - 200029364
+3. Lucas Henrique de Almeida Cardeal - 200029244
