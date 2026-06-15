@@ -1,10 +1,14 @@
 import string
 from Core.Token import Token
 
+# Definindo o que é um número e o que é uma letra
 numeros = "0123456789"
-letras = string.ascii_letters
+letras = string.ascii_letters + "_"
 letras_numeros = letras + numeros
 
+# O Lexer (Analisador Léxico) é a primeira etapa do compilador.
+# Sua função é ler o texto do código caractere por caractere e transformá-lo
+# em uma lista de "Tokens" (pequenos blocos de significado, como "SOMA", "INTEIRO", etc.).
 class Lexer:
     def __init__(self, texto):
         self.texto = texto
@@ -12,6 +16,7 @@ class Lexer:
         self.caractere_atual = None
         self.avancar()
 
+    # Move para o próximo caractere no texto.
     def avancar(self):
         self.posicao += 1
 
@@ -20,20 +25,25 @@ class Lexer:
         else:
             self.caractere_atual = None
 
+    # Função principal que varre o texto todo gerando e colecionando Tokens.
     def gerar_tokens(self):
         tokens = []
 
         while self.caractere_atual is not None:
 
-            if self.caractere_atual in " \t":
+            # Ignora espaços em branco e quebras de linha (Enter)
+            if self.caractere_atual in " \t\n\r":
                 self.avancar()
 
+            # Se achar aspas, começa a gerar um texto (String)
             elif self.caractere_atual == '"':
-                tokens.append(Token(self.gerar_string()))
+                tokens.append(self.gerar_string())
 
+            # Se for um número, gera um Token Numérico
             elif self.caractere_atual in numeros:
                 tokens.append(self.gerar_token_numerico())
                 
+            # Se for letra, pode ser o nome de uma variável, ou palavras como 'if', 'while'
             elif self.caractere_atual in letras:
                 tokens.append(self.gerar_identificador())
 
@@ -60,14 +70,17 @@ class Lexer:
             ### OPERADORES LÓGICOS E ATRIBUIÇÃO ###
             elif self.caractere_atual == "=":
                 self.avancar()
+                # Verifica se é '=='
                 if self.caractere_atual == "=":
                     tokens.append(Token("IGUAL_A", "=="))
                     self.avancar()
+                # Se não for, é só atribuição '='
                 else:
                     tokens.append(Token("ATRIBUICAO", "="))
 
             elif self.caractere_atual == "!":
                 self.avancar()
+                # Verifica se é '!='
                 if self.caractere_atual == "=":
                     tokens.append(Token("DIFERENTE", "!="))
                     self.avancar()
@@ -81,23 +94,26 @@ class Lexer:
                 self.avancar()
                 
             else:
+                # Se o caractere não bater com nenhuma das regras, mostra erro
                 print(f"O caractere '{self.caractere_atual}' é inválido")
                 self.avancar()
 
         return tokens
 
+    # Lê tudo até a próxima aspas e transforma num Token de TEXTO (STRING).
     def gerar_string(self):
         texto =""
-        self.avancar()
+        self.avancar() # Pula as primeiras aspas
 
         while self.caractere_atual is not None and self.caractere_atual != '"':
             texto += self.caractere_atual
             self.avancar()
 
-        self.avancar()
+        self.avancar() # Pula as aspas do fim
         return Token("STRING", texto)
 
 
+    # Lê os números, e se encontrar um ponto '.' transforma num Token DECIMAL.
     def gerar_token_numerico(self):
         numero_texto = ''
         e_decimal = False
@@ -116,6 +132,7 @@ class Lexer:
 
         return Token("INTEIRO", int(numero_texto))
 
+    # Identifica se é uma palavra chave reservada da linguagem ou se é uma variável que o usuário inventou.
     def gerar_identificador(self):
         id_texto = ''
         while self.caractere_atual is not None and self.caractere_atual in letras_numeros:
@@ -161,5 +178,5 @@ class Lexer:
         if id_texto == "return":
             return Token("RETURN", id_texto)
 
-        
+        # Se não é palavra reservada, então o usuário acabou de declarar o nome de uma variável!
         return Token("IDENTIFICADOR", id_texto)
