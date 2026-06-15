@@ -1,2 +1,34 @@
-x = 10 + 20 * 3
-y = 100 + 30 * 2
+titulo = "Teste Final"
+ativo = true
+x = 5
+y = 10
+z = 15
+
+resultado1 = x + y
+resultado2 = z - x
+resultado3 = resultado1 * resultado2
+resultado4 = resultado3 / 5
+
+print titulo
+print resultado1
+print resultado2
+print resultado3
+print resultado4
+
+if resultado4 > 20 and ativo then print "Resultado aprovado" else print "Resultado recusado"
+
+contador = 0
+while contador < 5 then contador = contador + 1
+
+print contador
+
+func dobro(n) return n * 2
+func triplo(n) return n * 3
+
+a = dobro(resultado4)
+b = triplo(x)
+c = a + b
+
+print a
+print b
+print c

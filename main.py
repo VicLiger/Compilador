@@ -1,6 +1,7 @@
 # Importa as peças essenciais para que o compilador funcione do começo ao fim
 from Analysis.Lexer import Lexer
 from Analysis.Parser import Parser
+from Execution.Interpreter import Interpreter
 from CodeGeneration.TAC import TAC
 from CodeGeneration.Simplificador import Simplificador
 from CodeGeneration.Bytecode import Bytecode
@@ -21,27 +22,37 @@ tokens = lexer.gerar_tokens()
 parser = Parser(tokens)
 arvore = parser.processar_programa()
 
-# 4. OTIMIZAÇÃO DE CÓDIGO
+# 4. ANÁLISE SEMÂNTICA / EXECUÇÃO
+# O Interpreter percorre a árvore e verifica erros como variável não declarada,
+# função não declarada, erro de tipo e também executa os comandos print/read.
+interpreter = Interpreter()
+interpreter.visitar(arvore)
+
+# 5. OTIMIZAÇÃO DE CÓDIGO
 # O Simplificador passa pela árvore procurando contas que ele pode resolver agora.
 # O "10 + 20 * 3" que resulta numa árvore cheia, vira um único galho "70".
 simplificador = Simplificador()
 arvore_simplificada = simplificador.simplificar(arvore)
 
-# 5. GERAÇÃO DE CÓDIGO INTERMEDIÁRIO (TAC)
+# 6. GERAÇÃO DE CÓDIGO INTERMEDIÁRIO (TAC)
 # Finalmente, a árvore (já simplificada) é enviada para virar uma linguagem linear.
 tac = TAC()
 tac.gerar(arvore_simplificada)
 
+# 7. GERAÇÃO DE BYTECODE
+# A árvore simplificada também pode ser traduzida para instruções de baixo nível.
+bytecode = Bytecode()
+bytecode.gerar(arvore_simplificada)
+
 # SAÍDA NA TELA (RESULTADO)
 # Mostra os tokens lidos pelo Lexer
-print("Tokens:", tokens)
+print("\nTokens:")
+print(tokens)
 
 # Mostra o código de 3 endereços otimizado final
 print("\nTAC otimizado:")
 print(tac.obter_codigo())
 
-# NOTA PARA APRESENTAÇÃO: 
-# Se você quisesse rodar este programa agora mesmo em vez de gerar TAC, bastava importar o Interpreter:
-# from Execution.Interpreter import Interpreter
-# interpreter = Interpreter()
-# interpreter.visitar(arvore_simplificada)
+# Mostra o bytecode gerado pelo compilador
+print("\nBytecode:")
+print(bytecode.obter_codigo())
